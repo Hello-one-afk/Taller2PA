@@ -27,11 +27,11 @@ public class Main {
                     case 1 -> {
                         if (login.autenticacion()) {
                             Usuario usuarioLogeado = login.buscarUsuarioLogeado(login.getNombre(), login.getContra());
-                            menu(usuarioLogeado,biblioteca);
+                            menu(usuarioLogeado,false,biblioteca);
                         }
                     }
                     case 2 -> login.validacionRegistroUsuario();
-                    case 3 -> menu(new Usuario("Admin","","admin123"),biblioteca);
+                    case 3 -> menu(new Usuario("Admin","","admin123"), true,biblioteca);
                 }
             } catch (Exception e) {
                 System.out.println("ERROR vuelva a intentar");
@@ -42,8 +42,9 @@ public class Main {
 
     }
 
-    public static void menu(Usuario usuarioLogeado, Biblioteca biblioteca) {
+    public static void menu(Usuario usuarioLogeado, boolean esAdmin, Biblioteca biblioteca) {
         int opcion = 0;
+        Administrador administrador = new Administrador();
         do {
             try {
                 System.out.println("╔═════════════════════════════════════════╗");
@@ -61,7 +62,13 @@ public class Main {
                 System.out.println("║ [10] Buscar Libro por peor Valoración   ║");
                 System.out.println("║ [11] Buscar Libro por valoracion exacta ║");
                 System.out.println("║ [12] Buscar Libro por fecha             ║");
-                System.out.println("║ [13] Salir                              ║");
+
+                if (esAdmin){
+                    System.out.println("║ [13] Agregar Libro                      ║");
+                    System.out.println("║ [14] Eliminar Libro                     ║");
+                    System.out.println("║ [15] Actualizar Libro                   ║");
+                }
+                System.out.println("║ [16] Salir                              ║");
                 System.out.println("╚═════════════════════════════════════════╝");
                 System.out.print("Ingrese su opcion: ");
                 opcion = teclado.nextInt();
@@ -79,6 +86,26 @@ public class Main {
                     case 10 -> usuarioLogeado.buscarLibroPorPeorValoracion(biblioteca);
                     case 11 -> usuarioLogeado.buscarLibroPorValoracion(biblioteca);
                     case 12 -> usuarioLogeado.buscarLibrosPorFecha(biblioteca);
+                    case 13 -> {
+                        if (esAdmin) {
+                            administrador.agregarLibro(biblioteca);
+                        } else {
+                            System.out.println("Opción no válida para este usuario.");
+                        }
+                    }
+                    case 14 -> {
+                        if (esAdmin) {
+                            administrador.eliminarLibro(biblioteca);
+                        } else {
+                            System.out.println("Opción no válida para este usuario.");
+                        }
+                    }
+                    case 15 -> {
+                        if (esAdmin) {
+
+                        } else {
+                        }
+                    }
 
                     default -> System.out.println("Opcion invalida. Por favor, ingrese una opciÃ³n vÃ¡lida.");
                 }
@@ -86,9 +113,8 @@ public class Main {
                 System.out.println("ERROR vuelva a intentar");
                 teclado.nextLine();
             }
-        } while (opcion != 13);
+        } while (opcion != 16);
     }
-
     public static int validar(int x) {
         int n = -1;
         do {
