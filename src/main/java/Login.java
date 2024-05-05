@@ -1,5 +1,3 @@
-package org.example;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -163,6 +161,10 @@ public class Login {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
     }
 
     public String getContra() {

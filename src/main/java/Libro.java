@@ -1,5 +1,4 @@
-package org.example;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class Libro {
@@ -9,16 +8,15 @@ public class Libro {
     private int ejemplaresDisponibles;
     private String date;
     private List<Integer> calificaciones;
-    private List<String> comentarios;
+    private List<String> comentarios = new ArrayList<>();
 
-    public Libro(String titulo, String autor, String categoria, int ejemplaresDisponibles, String date, List<Integer> calificaciones, List<String> comentarios) {
+    public Libro(String titulo, String autor, String categoria, int ejemplaresDisponibles, String date, List<Integer> calificaciones ) {
         this.titulo = titulo;
         this.autor = autor;
         this.categoria = categoria;
         this.ejemplaresDisponibles = ejemplaresDisponibles;
         this.date = date;
         this.calificaciones = calificaciones;
-        this.comentarios = comentarios;
     }
 
     public int obtenerMejorValoracion() {
@@ -72,6 +70,23 @@ public class Libro {
     public void setEjemplaresDisponibles(int ejemplaresDisponibles) {
         this.ejemplaresDisponibles = ejemplaresDisponibles;
     }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
 
     @Override
     public String toString() {

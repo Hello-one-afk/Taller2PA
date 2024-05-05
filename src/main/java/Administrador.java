@@ -1,5 +1,3 @@
-package org.example;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,45 +5,57 @@ import java.util.Scanner;
 
 public class Administrador {
 
-    static Scanner sc = new Scanner(System.in);
+    static Scanner teclado = new Scanner(System.in);
 
     private Biblioteca biblioteca;
-    private final List<Libro> libros = new ArrayList<>();
+
     public Administrador(Biblioteca biblioteca) {
         this.biblioteca = biblioteca;
     }
 
-    public Administrador(){
-
-    }
 
     public void agregarLibro(Biblioteca biblioteca) {
+        try {
+            String titulo = leerEntrada("Ingrese el título del libro:", teclado);
+            String autor = leerEntrada("Ingrese el autor del libro:", teclado);
+            String genero = leerEntrada("Ingrese el género del libro:", teclado);
+            int cantidadDisponible = leerEntero("Ingrese la cantidad disponible del libro:", teclado);
+            String fechaPublicacion = leerEntrada("Ingrese la fecha de publicación del libro (YY-MM-DD):", teclado);
 
-        System.out.println("¿Cuántos libros desea agregar?");
-        int cantidadLibros = sc.nextInt();
-        sc.nextLine();
-
-        for (int i = 0; i < cantidadLibros; i++) {
-            System.out.println("Ingrese el título del libro:");
-            String titulo = sc.nextLine();
-            System.out.println("Ingrese el autor del libro:");
-            String autor = sc.nextLine();
-            System.out.println("Ingrese el género del libro:");
-            String genero = sc.nextLine();
-            System.out.println("Ingrese la cantidad disponible del libro:");
-            int cantidadDisponible = sc.nextInt();
-            System.out.println("Ingrese la fecha de publicación del libro (YY-MM-DD):");
-            String fechaPublicacion = sc.next();
-
-            Libro nuevoLibro = new Libro(titulo, autor, genero, cantidadDisponible, fechaPublicacion, Collections.singletonList(0), Collections.singletonList(""));
-
-            biblioteca.addLibros(nuevoLibro);
-
-            System.out.println("Libro agregado exitosamente.");
-            sc.nextLine();
+            if (verificarDatos(titulo, autor, genero, cantidadDisponible, fechaPublicacion)) {
+                Libro nuevoLibro = new Libro(titulo, autor, genero, cantidadDisponible, fechaPublicacion, Collections.singletonList(0));
+                biblioteca.addLibros(nuevoLibro);
+                System.out.println("Libro agregado exitosamente.");
+                teclado.nextLine();
+            } else {
+                System.out.println("Ingrese datos validos");
+            }
+        } catch (Exception e) {
+            System.out.println("Ingrese datos validos");
+            teclado.nextLine();
+            agregarLibro(biblioteca);
         }
+
     }
 
+    private String leerEntrada(String mensaje, Scanner scanner) {
+        System.out.println(mensaje);
+        return scanner.nextLine();
+    }
+
+    private int leerEntero(String mensaje, Scanner scanner) {
+        System.out.println(mensaje);
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public boolean verificarDatos(String nombre, String autor, String genero, int cantDisponible, String fechaPublicacion) {
+        if (nombre.equals("") || autor.equals("") || genero.equals("") || cantDisponible == 0 || fechaPublicacion.equals("")) {
+            System.out.println("Ingrese datos validos");
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public void eliminarLibro(Biblioteca biblioteca) {
         System.out.println("Lista de libros disponibles:");
@@ -54,9 +64,9 @@ public class Administrador {
             Libro libro = libros.get(i);
             System.out.println((i + 1) + ". " + libro.getTitulo());
         }
-        System.out.print("Seleccione el número del libro que desea eliminar: ");
-        int opcion = sc.nextInt();
-        sc.nextLine();
+
+        int opcion = leerEntero("Seleccione el número del libro que desea eliminar: ", teclado);
+        teclado.nextLine();
 
         if (opcion < 1 || opcion > libros.size()) {
             System.out.println("Opción inválida.");
@@ -67,28 +77,59 @@ public class Administrador {
         libros.get(indiceLibro);
         libros.remove(indiceLibro);
 
-        System.out.println("=====libro eliminado=====");
+        System.out.println("=====Libro eliminado=====");
     }
 
 
+    public void modificarInformacionDelLibro(Biblioteca biblioteca) {
+        String titulo = leerEntrada("Ingrese Titulo del libro a modificar", teclado);
+        for (Libro libro : biblioteca.getLibros()) {
 
-    public void modificarInformacionDelLibro() {
+            if (titulo.equals(libro.getTitulo())) {
+                libro.setTitulo(leerEntrada("Ingrese Titulo nuevo", teclado));
+                libro.setAutor(leerEntrada("Ingrese Autor nuevo", teclado));
+                libro.setCategoria(leerEntrada("Ingrese Genero nuevo", teclado));
+                libro.setEjemplaresDisponibles(leerEntero("Ingrese Cantidad disponible nuevo", teclado));
+                libro.setDate(leerEntrada("Ingrese fecha de publicacion nuevo", teclado));
+            }
+        }
+
 
     }
 
-    public void administrarUsuarios() {
+    public void administrarUsuarios(Login usuario) {
+        int opcion;
+        do {
+
+            System.out.println("╔══════════════════════════╗");
+            System.out.println("║ [1] Ver lista usuario    ║");
+            System.out.println("║ [2] Eliminar Usuario     ║");
+            System.out.println("║ [3] Salir                ║");
+            System.out.println("╚══════════════════════════╝");
+            opcion = leerEntero("Ingrese opcion:", teclado);
+
+            menuManejoAdmin(opcion, usuario);
+        } while (opcion != 3);
     }
 
-    public void sancionPorDevolucion() {
+    public void verListaUsuario(Login usuarios) {
+        for (Usuario usuario : usuarios.getUsuarios()) {
+            System.out.println(usuario);
+        }
     }
 
-    public void sancionComentario() {
+    public void eliminarUsuario(Login usuarios) {
+        String buscarNombre = leerEntrada("Ingrese nombre del usuario", teclado);
+        usuarios.getUsuarios().removeIf(usuario -> usuario.getNombre().equals(buscarNombre));
     }
 
-    public void eliminarUsuario() {
-    }
+    public void menuManejoAdmin(int opcion, Login usuarios) {
+        switch (opcion) {
+            case 1 -> verListaUsuario(usuarios);
+            case 2 -> eliminarUsuario(usuarios);
+        }
 
+    }
 
 }
-
 
