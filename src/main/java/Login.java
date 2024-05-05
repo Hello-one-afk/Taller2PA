@@ -1,3 +1,5 @@
+package org.example;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,14 +29,18 @@ public class Login {
         System.out.println("║   Iniciar Sesión        ║");
         System.out.println("╠═════════════════════════╣");
 
-        System.out.println("║  Ingresar nombre:       ║");
-        nombre = correccionPalabras(teclado.nextLine());
-        System.out.println("║  Ingresar contraseña:   ║");
-        contra = teclado.nextLine();
+        try {
+            System.out.println("║  Ingresar nombre:       ║");
+            nombre = correccionPalabras(teclado.nextLine());
+            System.out.println("║  Ingresar contraseña:   ║");
+            contra = teclado.nextLine();
 
-        System.out.println(nombre + " | " + contra);
-        System.out.println("╚═════════════════════════╝");
+            System.out.println(nombre + " | " + contra);
+            System.out.println("╚═════════════════════════╝");
 
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error al iniciar sesión: " + e.getMessage());
+        }
     }
 
     public boolean autenticacion() {
@@ -47,7 +53,6 @@ public class Login {
                 System.out.println("╔════════════════════════════════════════╗");
                 System.out.println("║        Inicio de Sesión Exitoso        ║");
                 System.out.println("╚════════════════════════════════════════╝");
-
                 resultado = true;
             } else {
                 System.out.println("╔══════════════════════════════════════════════╗");
@@ -81,27 +86,30 @@ public class Login {
     }
 
     public String[] registrarUsuario() {
-        System.out.println("╠══════════════════════════════════════╣");
-        System.out.println("║     Ingresar nombre:                 ║");
-        String nombre = correccionPalabras(teclado.nextLine());
+        try {
+            System.out.println("╠══════════════════════════════════════╣");
+            System.out.println("║     Ingresar nombre:                 ║");
+            String nombre = correccionPalabras(teclado.nextLine());
 
-        System.out.println("║     Ingresar tipo personal           ║");
-        System.out.println("║     (Estudiante, Profesor o          ║");
-        System.out.println("║     Personal De La Biblioteca)       ║");
-        String tipoPersona = correccionPalabras(teclado.nextLine());
-
-
-        System.out.println("║     Ingresar contraseña:             ║");
-        String contrasena = teclado.nextLine();
-
-        System.out.println("║     Ingresar contraseña nuevamente:  ║");
-        String contrasenaConfirmacion = teclado.nextLine();
-        System.out.println("╚══════════════════════════════════════╝");
-
-        return new String[]{nombre, tipoPersona, contrasena, contrasenaConfirmacion};
+            System.out.println("║     Ingresar tipo personal           ║");
+            System.out.println("║     (Estudiante, Profesor o          ║");
+            System.out.println("║     Personal De La Biblioteca)       ║");
+            String tipoPersona = correccionPalabras(teclado.nextLine());
 
 
+            System.out.println("║     Ingresar contraseña:             ║");
+            String contrasena = teclado.nextLine();
+
+            System.out.println("║     Ingresar contraseña nuevamente:  ║");
+            String contrasenaConfirmacion = teclado.nextLine();
+            System.out.println("╚══════════════════════════════════════╝");
+            return new String[]{nombre, tipoPersona, contrasena, contrasenaConfirmacion};
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error durante el registro " + e.getMessage());
+            return null;
+        }
     }
+
 
 
     public void validacionRegistroUsuario() {
@@ -125,7 +133,6 @@ public class Login {
             System.out.println("╔════════════════════════════════════════╗");
             System.out.println("║       Creacion de cuenta exitosa       ║");
             System.out.println("╚════════════════════════════════════════╝");
-
             for (Usuario user : usuarios) {
                 System.out.println(user.toString());
             }

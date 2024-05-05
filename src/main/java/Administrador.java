@@ -1,3 +1,4 @@
+package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,36 +15,8 @@ public class Administrador {
     }
 
     public void menuAdmin(){
-    //....
+        //....
 
-    }
-    public void ingresarLibros() {
-
-        System.out.println("Ingrese el número de libros que desea ingresar:");
-        int cantidadLibros = sc.nextInt();
-
-        for (int i = 0; i < cantidadLibros; i++) {
-            System.out.println("Ingrese el título del libro:");
-            String titulo = sc.next();
-            System.out.println("Ingrese el autor del libro:");
-            String autor = sc.next();
-            System.out.println("Ingrese la categoría del libro:");
-            String categoria = sc.next();
-            System.out.println("Ingrese la cantidad disponible del libro:");
-            int cantidad = sc.nextInt();
-
-
-            libros.add(new Libro(titulo, autor, categoria, cantidad));
-        }
-        agregarLibros(libros);
-    }
-
-    public void agregarLibros(List<Libro> libros) {
-
-        for (Libro libro : libros) {
-            this.biblioteca.addLibros(libro);
-        }
-        System.out.println("Libros ingresados exitosamente a la biblioteca.");
     }
 
 

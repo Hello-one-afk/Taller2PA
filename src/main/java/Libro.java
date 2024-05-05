@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package org.example;
+
 import java.util.List;
 
 public class Libro {
@@ -6,24 +7,40 @@ public class Libro {
     private String autor;
     private String categoria;
     private int ejemplaresDisponibles;
+    private String date;
     private List<Integer> calificaciones;
     private List<String> comentarios;
 
-    public Libro(String titulo, String autor, String categoria, int ejemplaresDisponibles) {
+    public Libro(String titulo, String autor, String categoria, int ejemplaresDisponibles, String date, List<Integer> calificaciones, List<String> comentarios) {
         this.titulo = titulo;
         this.autor = autor;
         this.categoria = categoria;
         this.ejemplaresDisponibles = ejemplaresDisponibles;
-    }
-
-    public Libro(String titulo, String autor, String categoria, int ejemplaresDisponibles, List<Integer> calificaciones, List<String> comentarios) {
-        this.titulo = titulo;
-        this.autor = autor;
-        this.categoria = categoria;
-        this.ejemplaresDisponibles = ejemplaresDisponibles;
+        this.date = date;
         this.calificaciones = calificaciones;
         this.comentarios = comentarios;
     }
+
+    public int obtenerMejorValoracion() {
+        int mejorValoracion = Integer.MIN_VALUE;
+        for (Integer calificacion : calificaciones) {
+            if (calificacion > mejorValoracion) {
+                mejorValoracion = calificacion;
+            }
+        }
+        return mejorValoracion;
+    }
+
+    public int obtenerPeorValoracion() {
+        int peorValoracion = Integer.MAX_VALUE;
+        for (Integer calificacion : calificaciones) {
+            if (calificacion < peorValoracion) {
+                peorValoracion = calificacion;
+            }
+        }
+        return peorValoracion;
+    }
+
 
     public String getTitulo() {
         return titulo;
@@ -37,33 +54,9 @@ public class Libro {
         return categoria;
     }
 
-    public boolean tieneMejorValoracion(double valoracionMinima) {
-        for (Integer calificacion : calificaciones) {
-            if (calificacion >= valoracionMinima) {
-                return true;
-            }
-        }
-        return false;
+    public String getDate() {
+        return date;
     }
-
-    public boolean tienePeorValoracion(double valoracionMaxima) {
-        for (Integer calificacion : calificaciones) {
-            if (calificacion <= valoracionMaxima) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-
-
-    @Override
-    public String toString() {
-        return "Titulo= " + titulo + " | autor= " + autor + " | Categoria= " + categoria +" | EjemplaresDisponibles= " + ejemplaresDisponibles + " | Calificaciones= " + calificaciones + " | Comentarios= " + comentarios;
-    }
-
-
     public int getEjemplaresDisponibles() {
         return ejemplaresDisponibles;
     }
@@ -78,6 +71,11 @@ public class Libro {
 
     public void setEjemplaresDisponibles(int ejemplaresDisponibles) {
         this.ejemplaresDisponibles = ejemplaresDisponibles;
+    }
+
+    @Override
+    public String toString() {
+        return "Titulo= " + titulo + " | autor= " + autor + " | Categoria= " + categoria +" | EjemplaresDisponibles= " + ejemplaresDisponibles +"| Fecha= "+ date + " | Calificaciones= " + calificaciones + " | Comentarios= " + comentarios;
     }
 
 
